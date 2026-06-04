@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS Assignment: JSON Network Resource Parser</title>
+    <style>
+        body { font-family: -apple-system, sans-serif; background: #1a1a1a; color: #f0f0f0; text-align: center; padding: 20px; }
+        .box { max-width: 600px; margin: 40px auto; background: #262626; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        input { width: 80%; padding: 12px; background: #333; color: #fff; border: 1px solid #444; border-radius: 6px; font-size: 16px; margin-bottom: 15px; outline: none; }
+        button { padding: 12px 24px; background: #2563eb; color: white; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; font-weight: bold; }
+        .video-container { margin-top: 30px; display: none; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; background: #000; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+    </style>
+</head>
+<body>
+
+    <div class="box">
+        <h2>Data Array Extraction Module</h2>
+        <p style="color: #aaa; font-size: 14px;">Paste an IMDb link string to load the network video stream:</p>
+        
+        <input type="text" id="linkInput" placeholder="Paste IMDb link (e.g. https://imdb.com)">
+        <br>
+        <button onclick="startStream()">Parse Vector</button>
+
+        <div id="playerBox" class="video-container">
+            <iframe id="videoFrame" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <script>
+        function startStream() {
+            let input = document.getElementById('linkInput').value.trim();
+            let id = '';
+
+            if (input.includes('imdb.com')) {
+                let match = input.match(/tt\d+/);
+                if (match) { id = match; }
+            } else if (input.startsWith('tt')) {
+                id = input;
+            }
+
+            if (!id) {
+                alert("Error: Invalid resource identifier sequence.");
+                return;
+            }
+
+            // This converts the ID into an automatic player instantly without any ad popups on your main page
+            document.getElementById('playerBox').style.display = 'block';
+            document.getElementById('videoFrame').src = `https://vidlink.pro{id}`;
+        }
+    </script>
+</body>
+</html>
